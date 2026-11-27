@@ -1,11 +1,14 @@
 "use strict";
-const { app, BrowserWindow, ipcMain, dialog, shell, nativeTheme } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, shell, nativeTheme, net } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const { Worker } = require("worker_threads");
 const { defaultOutName } = require("./core/repair.js");
+const update = require("./core/update.js");
 
-const REPO_URL = "https://github.com/vietcong69/Repair-file-";
+const PKG = require("../package.json");
+const SLUG = update.repoSlug(PKG);
+const REPO_URL = SLUG ? `https://github.com/${SLUG}` : "https://github.com/vietcong69/Repair-file-";
 let win = null;
 const jobs = new Map();
 let seq = 0;
@@ -116,6 +119,55 @@ ipcMain.handle("reveal", (_e, p) => {
   if (typeof p === "string" && fs.existsSync(p)) shell.showItemInFolder(p);
 });
 
-ipcMain.handle("open-repo", () => shell.openExternal(require("../package.json").homepage || REPO_URL));
+ipcMain.handle("open-repo", () => shell.openExternal(REPO_URL));
+
+// ---------- gợi ý cập nhật ----------
+const settingsFile = () => path.join(app.getPath("userData"), "settings.json");
+function loadSettings() {
+  try { return JSON.parse(fs.readFileSync(settingsFile(), "utf8")) || {}; } catch (_) { return {}; }
+}
+function saveSettings(patch) {
+  const s = Object.assign(loadSettings(), patch);
+  try { fs.mkdirSync(path.dirname(settingsFile()), { recursive: true }); fs.writeFileSync(settingsFile(), JSON.stringify(s, null, 2)); } catch (_) { /* bỏ qua */ }
+  return s;
+}
+async function fetchJson(url) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 10000);
+  try {
+    const res = await net.fetch(url, { signal: ctrl.signal, headers: { Accept: "application/vnd.github+json", "User-Agent": `VideoCheck/${app.getVersion()}` } });
+    if (res.status === 404) throw new Error("Chưa có bản phát hành nào trên GitHub.");
+    if (!res.ok) throw new Error(`GitHub trả lỗi ${res.status}.`);
+    return await res.json();
+  } catch (e) {
+    throw new Error(e.name === "AbortError" ? "Hết thời gian chờ GitHub. Kiểm tra kết nối mạng." : e.message);
+  } finally { clearTimeout(timer); }
+}
+const runCheck = () => update.checkForUpdate({ currentVersion: app.getVersion(), slug: SLUG, platform: process.platform, arch: process.arch, fetchJson });
+
+// manual = người dùng bấm "Kiểm tra cập nhật": luôn kiểm tra và luôn trả kết quả.
+// Tự động khi mở app: tối đa 1 lần/ngày, bỏ qua phiên bản người dùng đã chọn bỏ qua.
+ipcMain.handle("update-check", async (_e, { manual = false } = {}) => {
+  const s = loadSettings();
+  if (!manual && !update.shouldAutoCheck(s)) return null;
+  try {
+    const info = await runCheck();
+    saveSettings({ lastCheck: Date.now() });
+    if (!manual && (!info.newer || s.skipVersion === info.latest)) return null;
+    return info;
+  } catch (e) {
+    return manual ? { error: e.message } : null;
+  }
+});
+ipcMain.handle("update-skip", (_e, version) => { saveSettings({ skipVersion: String(version || "") }); return true; });
+ipcMain.handle("update-settings", (_e, patch) => {
+  if (patch && typeof patch.autoCheck === "boolean") saveSettings({ autoCheck: patch.autoCheck });
+  const s = loadSettings();
+  return { autoCheck: s.autoCheck !== false };
+});
+ipcMain.handle("open-url", (_e, url) => {
+  // chỉ mở trang của chính repository app
+  if (typeof url === "string" && url.startsWith(REPO_URL + "/")) shell.openExternal(url);
+});
 
 ipcMain.handle("app-info", () => ({ version: app.getVersion(), platform: process.platform }));

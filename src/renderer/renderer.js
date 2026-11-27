@@ -268,6 +268,32 @@ try { $("#full").checked = localStorage.getItem("vc-full") === "1"; } catch (_) 
 $("#full").addEventListener("change", (e) => { try { localStorage.setItem("vc-full", e.target.checked ? "1" : "0"); } catch (_) { /* bỏ qua */ } });
 $("#repo").addEventListener("click", () => api.openRepo());
 api.onOpenFiles((paths) => { showTab("check"); addPaths(paths); });
+
+// ---------- gợi ý cập nhật ----------
+let upd = null;
+function showUpdate(info) {
+  upd = info;
+  $("#upd-title").textContent = `Có bản mới: Video Check ${info.latest}`;
+  $("#upd-sub").textContent = `Bạn đang dùng bản ${info.current}.` +
+    (info.download ? ` File cho máy này: ${info.download.name} (${fmtB(info.download.size || 0)}). Tải về rồi cài đè lên bản cũ.` : " Mở trang phát hành để tải bản phù hợp.");
+  $("#upd").hidden = false;
+}
+const hideUpdate = () => { $("#upd").hidden = true; };
+$("#upd-get").addEventListener("click", () => upd && api.openUrl(upd.download ? upd.download.url : upd.pageUrl));
+$("#upd-notes").addEventListener("click", () => upd && api.openUrl(upd.pageUrl));
+$("#upd-later").addEventListener("click", hideUpdate);
+$("#upd-skip").addEventListener("click", () => { if (upd) api.updateSkip(upd.latest); hideUpdate(); });
+$("#upd-check").addEventListener("click", async () => {
+  const st = $("#upd-status");
+  st.textContent = "Đang kiểm tra…";
+  const r = await api.updateCheck({ manual: true });
+  if (!r || r.error) st.textContent = `Không kiểm tra được: ${(r && r.error) || "lỗi không rõ"}`;
+  else if (r.newer) { st.textContent = ""; showUpdate(r); }
+  else st.textContent = `Bạn đang dùng bản mới nhất (${r.current}).`;
+});
+api.updateSettings().then((s) => { $("#upd-auto").checked = s.autoCheck; });
+$("#upd-auto").addEventListener("change", (e) => api.updateSettings({ autoCheck: e.target.checked }));
+setTimeout(() => api.updateCheck({ manual: false }).then((i) => { if (i && i.newer) showUpdate(i); }), 2500);
 api.info().then((i) => { $("#ver").textContent = `Video Check ${i.version} · mã nguồn mở, giấy phép MIT`; });
 render();
 setRep("ref", null);

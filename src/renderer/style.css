@@ -92,6 +92,9 @@ td:first-child{color:var(--mute);width:36%}
 .job li{margin:6px 0}
 .log{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-height:260px;overflow:auto;white-space:pre-wrap;margin:14px 0 0}
 .log:empty{display:none}
+.upd{background:color-mix(in srgb,var(--acc) 12%,var(--bg));border-bottom:1px solid var(--line);padding-block:12px}
+.updrow{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+.upd b{font-size:17px}
 .ok-text{color:var(--ok)}.bad-text{color:var(--bad)}
 @media(max-width:860px){.repair{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){.two{grid-template-columns:minmax(0,1fr)}.tick.minor{display:none}.tabs{width:100%}.tabs button{flex:1;min-width:0}}

@@ -22,6 +22,11 @@ App mã nguồn mở cho **macOS** và **Windows** để kiểm tra lỗi file v
 - **File gốc chỉ được đọc, không bao giờ bị sửa.** Kết quả được ghi ra file mới.
 - Báo trước nếu ổ đĩa không đủ chỗ trống. Có thể hủy giữa chừng; file tạm sẽ tự xóa.
 
+**Gợi ý cập nhật**
+- Khi mở app (tối đa 1 lần/ngày), app hỏi GitHub xem có bản mới không. Nếu có, app hiện thông báo kèm nút tải đúng file cho máy đang dùng (Mac chip Apple, Mac Intel hoặc Windows).
+- Chọn được **Để sau**, **Bỏ qua bản này**, bấm **Kiểm tra cập nhật** bất cứ lúc nào, hoặc tắt **Tự kiểm tra khi mở app** ở cuối cửa sổ.
+- App chỉ đọc số phiên bản từ `api.github.com`, không gửi thông tin nào về máy hay file của bạn. App không tự cài; bạn tải về rồi cài đè lên bản cũ.
+
 ## Tải về
 
 Vào trang [**Releases**](../../releases/latest) và tải:
@@ -96,6 +101,7 @@ git push
 |---|---|
 | `src/core/analyzer.js` | Phân tích file MP4/MOV (dùng được cả trong trình duyệt) |
 | `src/core/repair.js` | Quét file hỏng và dựng lại chỉ mục Sony XAVC |
+| `src/core/update.js` | Kiểm tra phiên bản mới trên GitHub Releases |
 | `src/main.js`, `src/worker.js` | Electron: cửa sổ, hộp thoại, chạy việc nặng ở luồng riêng |
 | `src/renderer/` | Giao diện |
 | `cli/video-check.js` | Dòng lệnh |

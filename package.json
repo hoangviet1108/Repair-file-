@@ -1,7 +1,7 @@
 {
   "name": "video-check",
   "productName": "Video Check",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Kiểm tra lỗi và khôi phục file video MP4/MOV (Sony XAVC) bị mất chỉ mục – macOS & Windows",
   "main": "src/main.js",
   "bin": {

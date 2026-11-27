@@ -21,6 +21,18 @@
   </div>
 </header>
 
+<div class="band upd" id="upd" hidden role="status">
+  <div class="wrap updrow">
+    <div><b id="upd-title">Có bản mới</b><div class="small" id="upd-sub"></div></div>
+    <div class="row">
+      <button class="pri" id="upd-get">Tải về</button>
+      <button id="upd-notes">Xem thay đổi</button>
+      <button id="upd-later">Để sau</button>
+      <button class="link" id="upd-skip">Bỏ qua bản này</button>
+    </div>
+  </div>
+</div>
+
 <main class="band">
   <section class="wrap" id="p-check" role="tabpanel" aria-labelledby="t-check">
     <div class="drop" id="drop">
@@ -98,7 +110,12 @@
 <footer class="band">
   <div class="wrap row spread">
     <span class="small" id="ver">Video Check</span>
-    <button class="link" id="repo">Mã nguồn mở trên GitHub</button>
+    <div class="row">
+      <span class="small" id="upd-status" role="status"></span>
+      <button class="link" id="upd-check">Kiểm tra cập nhật</button>
+      <label class="chk small"><input type="checkbox" id="upd-auto" checked> Tự kiểm tra khi mở app</label>
+      <button class="link" id="repo">Mã nguồn trên GitHub</button>
+    </div>
   </div>
 </footer>
 
