@@ -16,7 +16,7 @@ App mã nguồn mở cho **macOS** và **Windows** để kiểm tra lỗi file v
 - Đọc metadata Sony: máy quay, số seri, ống kính, thời gian quay, định dạng ghi.
 - Sao chép báo cáo dạng văn bản để gửi cho người khác.
 
-**Khôi phục** (file MP4 Sony XAVC S / XAVC HS; đã thử trên Sony FX3)
+**Khôi phục** (file MP4 Sony XAVC S dùng H.264; đã thử trên Sony FX3. XAVC HS dùng H.265 chưa hỗ trợ)
 - Dựng lại chỉ mục cho file mất chỉ mục hoặc mất phần đầu, dựa vào **một file tốt quay cùng máy, cùng cài đặt**.
 - Tự bỏ qua vùng dữ liệu bị xóa trống rồi đi tiếp, không dừng giữa chừng.
 - **File gốc chỉ được đọc, không bao giờ bị sửa.** Kết quả được ghi ra file mới.
@@ -63,7 +63,7 @@ Thả file vào cửa sổ app, hoặc bấm **Chọn file…**. Quét nhanh ch�
 
 ### Giới hạn cần biết
 - Phần dữ liệu đã bị **xóa trống** (toàn byte FF/00) **không thể lấy lại** từ chính file đó. Khi đó chỉ còn cách tìm bản gốc trên thẻ, thẻ thứ hai, file proxy hoặc bản sao khác.
-- Khôi phục hiện chỉ hỗ trợ cấu trúc Sony XAVC: hình H.264/H.265, tiếng PCM và metadata `rtmd`.
+- Khôi phục hiện chỉ hỗ trợ cấu trúc Sony XAVC S: hình H.264, tiếng PCM và metadata `rtmd`. File H.265 (XAVC HS) chưa khôi phục được.
 - Mỗi chỗ đứt thường mất thêm khoảng nửa giây: chu kỳ ngay trước vùng hỏng và chu kỳ cuối cùng của file không xác định được điểm kết thúc.
 - Phần kiểm tra đọc cấu trúc và dữ liệu thô, không giải mã từng khung hình. Một file được báo "Tốt" vẫn có thể có lỗi hình nhỏ bên trong.
 
