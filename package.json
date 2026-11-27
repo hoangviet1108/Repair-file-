@@ -1,0 +1,101 @@
+{
+  "name": "video-check",
+  "productName": "Video Check",
+  "version": "1.0.0",
+  "description": "Kiểm tra lỗi và khôi phục file video MP4/MOV (Sony XAVC) bị mất chỉ mục – macOS & Windows",
+  "main": "src/main.js",
+  "bin": {
+    "video-check": "cli/video-check.js"
+  },
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test \"test/*.test.js\"",
+    "dist": "electron-builder --publish never",
+    "dist:mac": "electron-builder --mac --publish never",
+    "dist:win": "electron-builder --win --publish never"
+  },
+  "keywords": [
+    "video",
+    "repair",
+    "mp4",
+    "mov",
+    "xavc",
+    "sony",
+    "fx3",
+    "moov",
+    "recovery"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/vietcong69/Repair-file-",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vietcong69/Repair-file-.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vietcong69/Repair-file-/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "electron": "44.11.3",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "io.github.videocheck.app",
+    "productName": "Video Check",
+    "artifactName": "Video-Check-${version}-${os}-${arch}.${ext}",
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "mac": {
+      "category": "public.app-category.video",
+      "identity": null,
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "portable": {
+      "artifactName": "Video-Check-${version}-portable.${ext}"
+    },
+    "publish": null
+  }
+}

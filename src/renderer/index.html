@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+<title>Video Check</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="band head">
+  <div class="wrap headrow">
+    <div class="brand">
+      <svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true"><rect x="2" y="2" width="44" height="44" rx="11" fill="var(--ink)"/><rect x="9" y="20" width="21" height="9" rx="2" fill="var(--ok)"/><rect x="30" y="20" width="9" height="9" rx="2" fill="var(--bad)"/><g fill="var(--bg)"><rect x="11" y="12" width="4" height="4" rx="1"/><rect x="19" y="12" width="4" height="4" rx="1"/><rect x="27" y="12" width="4" height="4" rx="1"/><rect x="35" y="12" width="4" height="4" rx="1"/><rect x="11" y="33" width="4" height="4" rx="1"/><rect x="19" y="33" width="4" height="4" rx="1"/><rect x="27" y="33" width="4" height="4" rx="1"/><rect x="35" y="33" width="4" height="4" rx="1"/></g></svg>
+      <div><h1>Kiểm tra &amp; khôi phục video</h1><p class="small">File gốc chỉ được đọc, không bao giờ bị sửa.</p></div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button role="tab" id="t-check" aria-selected="true" aria-controls="p-check">Kiểm tra</button>
+      <button role="tab" id="t-repair" aria-selected="false" aria-controls="p-repair">Khôi phục</button>
+    </nav>
+  </div>
+</header>
+
+<main class="band">
+  <section class="wrap" id="p-check" role="tabpanel" aria-labelledby="t-check">
+    <div class="drop" id="drop">
+      <div>
+        <b>Thả file video vào đây</b>
+        <p class="small">MP4/MOV, chọn được nhiều file. Xem file còn chỉ mục không, đoạn nào xem được, bao nhiêu dữ liệu bị xóa trống.</p>
+      </div>
+      <div class="row">
+        <button class="pri" id="pick">Chọn file…</button>
+        <label class="chk"><input type="checkbox" id="full"> Quét kỹ toàn bộ file</label>
+      </div>
+    </div>
+    <div class="bar">
+      <h2 id="count">Kết quả</h2>
+      <div class="legend">
+        <span><i class="dot s-ok"></i>Xem được / có dữ liệu</span>
+        <span><i class="dot s-blank"></i>Bị xóa trống (FF)</span>
+        <span><i class="dot zero"></i>Toàn byte 00</span>
+        <span><i class="dot s-bad"></i>Hỏng / ngoài file</span>
+      </div>
+    </div>
+    <div class="list" id="list"></div>
+  </section>
+
+  <section class="wrap" id="p-repair" role="tabpanel" aria-labelledby="t-repair" hidden>
+    <div class="repair">
+      <div class="steps">
+        <h2>Dựng lại chỉ mục cho file Sony XAVC</h2>
+        <p class="small">Dùng khi file không mở được vì mất chỉ mục (máy tắt đột ngột, thẻ lỗi, copy hỏng). Cần một file tốt quay bằng <b>cùng máy, cùng cài đặt</b> (độ phân giải, tốc độ khung hình, bitrate) để làm mẫu.</p>
+        <div class="field" id="f-ref" data-key="ref">
+          <span class="num">1</span>
+          <div><b>File mẫu (còn tốt)</b><div class="path" id="ref-path">Chưa chọn</div></div>
+          <button data-pick="ref">Chọn…</button>
+        </div>
+        <div class="field" id="f-broken" data-key="broken">
+          <span class="num">2</span>
+          <div><b>File hỏng cần khôi phục</b><div class="path" id="broken-path">Chưa chọn</div></div>
+          <button data-pick="broken">Chọn…</button>
+        </div>
+        <div class="field" id="f-out" data-key="out">
+          <span class="num">3</span>
+          <div><b>Lưu file mới thành</b><div class="path" id="out-path">Tự đặt cạnh file hỏng</div></div>
+          <button data-pick="out">Đổi…</button>
+        </div>
+        <div class="row">
+          <button class="pri big" id="go" disabled>Bắt đầu khôi phục</button>
+          <span class="small" id="go-hint">Chọn file mẫu và file hỏng để bắt đầu.</span>
+        </div>
+      </div>
+      <div class="job" id="job">
+        <div class="idle" id="job-idle">
+          <h3>Cách hoạt động</h3>
+          <ol>
+            <li>Đọc chỉ mục của file mẫu để biết máy quay sắp xếp hình, tiếng và metadata thế nào.</li>
+            <li>Quét file hỏng theo từng chu kỳ, đo kích thước từng khung hình, bỏ qua vùng bị xóa trống.</li>
+            <li>Ghi một file mới gồm dữ liệu còn lại và chỉ mục dựng lại. File gốc giữ nguyên.</li>
+          </ol>
+          <p class="small">Cần ổ đĩa còn trống khoảng bằng dung lượng file hỏng. Phần dữ liệu đã bị xóa trống (byte FF) không thể lấy lại.</p>
+        </div>
+        <div id="job-run" hidden>
+          <p class="verdict" id="job-title">Đang khôi phục…</p>
+          <div class="prog"><i id="job-bar"></i></div>
+          <div class="row spread"><span class="small" id="job-label"></span><button id="job-cancel">Hủy</button></div>
+          <div class="row" id="job-done" hidden>
+            <button class="pri" id="job-reveal">Hiện trong thư mục</button>
+            <button id="job-check">Kiểm tra file mới</button>
+          </div>
+          <pre class="log" id="job-log" aria-live="polite"></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="band">
+  <div class="wrap row spread">
+    <span class="small" id="ver">Video Check</span>
+    <button class="link" id="repo">Mã nguồn mở trên GitHub</button>
+  </div>
+</footer>
+
+<script src="../core/analyzer.js"></script>
+<script src="renderer.js"></script>
+</body>
+</html>
