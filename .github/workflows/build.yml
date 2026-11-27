@@ -56,16 +56,48 @@ jobs:
             dist/*.exe
           if-no-files-found: error
 
+  # Tự phát hành khi đẩy lên main với số phiên bản mới trong package.json (hoặc khi đẩy tag v*).
   release:
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+      - name: Đọc số phiên bản
+        id: v
+        run: |
+          TAG="v$(node -p "require('./package.json').version")"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Đã có bản phát hành $TAG, bỏ qua."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - if: steps.v.outputs.exists == 'false'
+        uses: actions/download-artifact@v4
         with:
           path: dist
           merge-multiple: true
-      - uses: softprops/action-gh-release@v2
+      - if: steps.v.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.v.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: Video Check ${{ steps.v.outputs.tag }}
           files: dist/*
           generate_release_notes: true
+          body: |
+            ## Tải về
+            | Máy | File |
+            |---|---|
+            | macOS chip Apple (M1–M4…) | `…-mac-arm64.dmg` |
+            | macOS chip Intel | `…-mac-x64.dmg` |
+            | Windows 10/11 – cài đặt | `…-win-x64.exe` |
+            | Windows – chạy không cần cài | `…-portable.exe` |
+
+            **Mở lần đầu:** app chưa ký số nên hệ điều hành sẽ cảnh báo.
+            - macOS: nhấp chuột phải vào app → **Open** → **Open**. Nếu báo "damaged", chạy `xattr -cr "/Applications/Video Check.app"` trong Terminal.
+            - Windows: SmartScreen → **More info** → **Run anyway**.

@@ -82,11 +82,12 @@ npm test           # kiểm thử (dùng file giả lập, không cần video th
 npm run dist       # đóng gói cho hệ điều hành đang dùng → thư mục dist/
 ```
 
-GitHub Actions tự chạy kiểm thử và build bản macOS và Windows mỗi lần đẩy code. Để phát hành bản mới:
+GitHub Actions tự chạy kiểm thử và build bản macOS và Windows mỗi lần đẩy code. Để phát hành bản mới, tăng số phiên bản rồi đẩy lên nhánh `main`. Khi gặp số phiên bản chưa có bản phát hành, GitHub sẽ tự tạo Release kèm file cài đặt:
 
 ```bash
-npm version patch          # ví dụ 1.0.0 → 1.0.1
-git push --follow-tags     # tag v1.0.1 → tự tạo Release kèm file cài đặt
+npm version patch --no-git-tag-version   # ví dụ 1.0.0 → 1.0.1
+git commit -am "Phiên bản 1.0.1"
+git push
 ```
 
 ### Cấu trúc mã nguồn
