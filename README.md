@@ -37,7 +37,7 @@ Vào trang [**Releases**](../../releases/latest) và tải:
 
 App chưa được ký số bằng chứng chỉ trả phí của Apple/Microsoft, nên hệ điều hành sẽ cảnh báo:
 
-- **macOS:** nhấp chuột phải vào app, chọn **Open**, rồi **Open** lần nữa. Hoặc vào *System Settings → Privacy & Security* và bấm **Open Anyway**. Nếu máy báo app "bị hỏng" (damaged), mở Terminal và chạy:
+- **macOS:** kéo app vào thư mục Applications rồi mở. Khi macOS báo không xác minh được app, bấm **Done**, vào *System Settings → Privacy & Security*, kéo xuống và bấm **Open Anyway** cạnh dòng "Video Check", rồi xác nhận lại. Chỉ cần làm một lần. Cách khác: mở Terminal và chạy
   ```
   xattr -cr "/Applications/Video Check.app"
   ```

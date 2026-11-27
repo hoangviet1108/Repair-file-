@@ -99,5 +99,5 @@ jobs:
             | Windows – chạy không cần cài | `…-portable.exe` |
 
             **Mở lần đầu:** app chưa ký số nên hệ điều hành sẽ cảnh báo.
-            - macOS: nhấp chuột phải vào app → **Open** → **Open**. Nếu báo "damaged", chạy `xattr -cr "/Applications/Video Check.app"` trong Terminal.
+            - macOS: mở app, khi bị chặn vào *System Settings → Privacy & Security* → **Open Anyway** (hoặc chạy `xattr -cr "/Applications/Video Check.app"` trong Terminal).
             - Windows: SmartScreen → **More info** → **Run anyway**.
