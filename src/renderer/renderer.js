@@ -273,7 +273,7 @@ api.onOpenFiles((paths) => { showTab("check"); addPaths(paths); });
 let upd = null;
 function showUpdate(info) {
   upd = info;
-  $("#upd-title").textContent = `Có bản mới: Video Check ${info.latest}`;
+  $("#upd-title").textContent = `Có bản mới: FileFind ${info.latest}`;
   $("#upd-sub").textContent = `Bạn đang dùng bản ${info.current}.` +
     (info.download ? ` File cho máy này: ${info.download.name} (${fmtB(info.download.size || 0)}). Tải về rồi cài đè lên bản cũ.` : " Mở trang phát hành để tải bản phù hợp.");
   $("#upd").hidden = false;
@@ -294,7 +294,7 @@ $("#upd-check").addEventListener("click", async () => {
 api.updateSettings().then((s) => { $("#upd-auto").checked = s.autoCheck; });
 $("#upd-auto").addEventListener("change", (e) => api.updateSettings({ autoCheck: e.target.checked }));
 setTimeout(() => api.updateCheck({ manual: false }).then((i) => { if (i && i.newer) showUpdate(i); }), 2500);
-api.info().then((i) => { $("#ver").textContent = `Video Check ${i.version} · mã nguồn mở, giấy phép MIT`; });
+api.info().then((i) => { $("#ver").textContent = `FileFind ${i.version} · mã nguồn mở, giấy phép MIT`; });
 render();
 setRep("ref", null);
 }

@@ -1,18 +1,18 @@
 #!/usr/bin/env node
 "use strict";
 // Dòng lệnh: kiểm tra / khôi phục file video mà không cần mở app.
-//   node cli/video-check.js check FILE... [--full] [--json]
-//   node cli/video-check.js repair FILE_MAU FILE_HONG [FILE_KET_QUA] [--dry-run] [--dump-moov FILE] [--max-chunks N]
+//   node cli/filefind.js check FILE... [--full] [--json]
+//   node cli/filefind.js repair FILE_MAU FILE_HONG [FILE_KET_QUA] [--dry-run] [--dump-moov FILE] [--max-chunks N]
 const fs = require("fs");
 const Analyzer = require("../src/core/analyzer.js");
 const { repair, defaultOutName, RepairError } = require("../src/core/repair.js");
 
 const HELP = `Cách dùng:
-  video-check check FILE... [--full] [--json]
+  filefind check FILE... [--full] [--json]
       Kiểm tra file MP4/MOV: chỉ mục, đoạn xem được, vùng byte trống.
       --full  quét từng byte (chậm hơn, chính xác hơn)
 
-  video-check repair FILE_MAU FILE_HONG [FILE_KET_QUA] [--dry-run] [--max-chunks N]
+  filefind repair FILE_MAU FILE_HONG [FILE_KET_QUA] [--dry-run] [--max-chunks N]
       Dựng lại chỉ mục cho file Sony XAVC bị mất chỉ mục.
       FILE_MAU: file tốt quay cùng máy, cùng cài đặt. FILE_HONG chỉ được đọc.
       --dry-run  chỉ quét và báo kết quả, không ghi file`;

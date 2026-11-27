@@ -1,11 +1,11 @@
 {
-  "name": "video-check",
-  "productName": "Video Check",
-  "version": "1.0.3",
-  "description": "Kiểm tra lỗi và khôi phục file video MP4/MOV (Sony XAVC) bị mất chỉ mục – macOS & Windows",
+  "name": "filefind",
+  "productName": "FileFind",
+  "version": "1.1.0",
+  "description": "FileFind – kiểm tra lỗi và khôi phục video MP4/MOV bị hỏng (Sony XAVC), cho macOS & Windows",
   "main": "src/main.js",
   "bin": {
-    "video-check": "cli/video-check.js"
+    "filefind": "cli/filefind.js"
   },
   "scripts": {
     "start": "electron .",
@@ -42,9 +42,9 @@
     "electron-builder": "26.18.0"
   },
   "build": {
-    "appId": "io.github.videocheck.app",
-    "productName": "Video Check",
-    "artifactName": "Video-Check-${version}-${os}-${arch}.${ext}",
+    "appId": "io.github.hoangviet1108.filefind",
+    "productName": "FileFind",
+    "artifactName": "FileFind-${version}-${os}-${arch}.${ext}",
     "files": [
       "src/**/*",
       "package.json"
@@ -95,7 +95,7 @@
       "allowToChangeInstallationDirectory": true
     },
     "portable": {
-      "artifactName": "Video-Check-${version}-portable.${ext}"
+      "artifactName": "FileFind-${version}-portable.${ext}"
     },
     "publish": null
   }

@@ -1,8 +1,10 @@
 <p align="center"><img src="build/icon.png" width="96" alt=""></p>
 
-# Video Check: kiểm tra & khôi phục video
+# FileFind
 
-App mã nguồn mở cho **macOS** và **Windows** để kiểm tra lỗi file video MP4/MOV và **khôi phục file Sony XAVC bị mất chỉ mục**. Lỗi này thường gặp khi máy quay tắt đột ngột, thẻ nhớ hỏng hoặc copy dở, và file không mở được hoặc chỉ hiện một hình đứng yên.
+**Kiểm tra lỗi và khôi phục video bị hỏng.** Mã nguồn mở, miễn phí, cho macOS và Windows.
+
+FileFind kiểm tra lỗi file video MP4/MOV và **khôi phục file Sony XAVC bị mất chỉ mục**. Lỗi này thường gặp khi máy quay tắt đột ngột, thẻ nhớ hỏng hoặc copy dở, và file không mở được hoặc chỉ hiện một hình đứng yên.
 
 ![Màn hình kiểm tra](docs/screenshot-check.png)
 
@@ -33,18 +35,18 @@ Vào trang [**Releases**](../../releases/latest) và tải:
 
 | Hệ điều hành | File |
 |---|---|
-| macOS chip Apple (M1–M4…) | `Video-Check-x.y.z-mac-arm64.dmg` |
-| macOS chip Intel | `Video-Check-x.y.z-mac-x64.dmg` |
-| Windows 10/11 (cài đặt) | `Video-Check-x.y.z-win-x64.exe` |
-| Windows (chạy không cần cài) | `Video-Check-x.y.z-portable.exe` |
+| macOS chip Apple (M1–M4…) | `FileFind-x.y.z-mac-arm64.dmg` |
+| macOS chip Intel | `FileFind-x.y.z-mac-x64.dmg` |
+| Windows 10/11 (cài đặt) | `FileFind-x.y.z-win-x64.exe` |
+| Windows (chạy không cần cài) | `FileFind-x.y.z-portable.exe` |
 
 ### Mở app lần đầu
 
 App chưa được ký số bằng chứng chỉ trả phí của Apple/Microsoft, nên hệ điều hành sẽ cảnh báo:
 
-- **macOS:** kéo app vào thư mục Applications rồi mở. Khi macOS báo không xác minh được app, bấm **Done**, vào *System Settings → Privacy & Security*, kéo xuống và bấm **Open Anyway** cạnh dòng "Video Check", rồi xác nhận lại. Chỉ cần làm một lần. Cách khác: mở Terminal và chạy
+- **macOS:** kéo app vào thư mục Applications rồi mở. Khi macOS báo không xác minh được app, bấm **Done**, vào *System Settings → Privacy & Security*, kéo xuống và bấm **Open Anyway** cạnh dòng "FileFind", rồi xác nhận lại. Chỉ cần làm một lần. Cách khác: mở Terminal và chạy
   ```
-  xattr -cr "/Applications/Video Check.app"
+  xattr -cr "/Applications/FileFind.app"
   ```
 - **Windows:** khi SmartScreen hiện ra, bấm **More info → Run anyway**.
 
@@ -72,10 +74,10 @@ Thả file vào cửa sổ app, hoặc bấm **Chọn file…**. Quét nhanh ch�
 Cần Node.js 20 trở lên. Chạy trong thư mục mã nguồn, không cần cài thêm gói nào:
 
 ```bash
-node cli/video-check.js check video.MP4 --full            # kiểm tra (mã thoát 1 nếu có file hỏng)
-node cli/video-check.js check *.MP4 --json                # xuất JSON
-node cli/video-check.js repair mau.MP4 hong.MP4           # khôi phục → hong_khoi_phuc.MP4
-node cli/video-check.js repair mau.MP4 hong.MP4 --dry-run # chỉ quét, không ghi file
+node cli/filefind.js check video.MP4 --full            # kiểm tra (mã thoát 1 nếu có file hỏng)
+node cli/filefind.js check *.MP4 --json                # xuất JSON
+node cli/filefind.js repair mau.MP4 hong.MP4           # khôi phục → hong_khoi_phuc.MP4
+node cli/filefind.js repair mau.MP4 hong.MP4 --dry-run # chỉ quét, không ghi file
 ```
 
 ## Phát triển
@@ -104,7 +106,7 @@ git push
 | `src/core/update.js` | Kiểm tra phiên bản mới trên GitHub Releases |
 | `src/main.js`, `src/worker.js` | Electron: cửa sổ, hộp thoại, chạy việc nặng ở luồng riêng |
 | `src/renderer/` | Giao diện |
-| `cli/video-check.js` | Dòng lệnh |
+| `cli/filefind.js` | Dòng lệnh |
 | `test/` | Kiểm thử với file Sony XAVC giả lập |
 
 ### Cách khôi phục hoạt động
@@ -112,7 +114,7 @@ Máy Sony ghi dữ liệu theo chu kỳ: `[metadata rtmd × N][N khung hình][ti
 
 ## English
 
-**Video Check** is a free, open-source desktop app (macOS & Windows) that inspects MP4/MOV files and shows which parts are playable, which parts were blanked (0xFF/0x00) and whether the index (`moov`) is missing. It can also **rebuild the index of Sony XAVC recordings** that lost it after a power cut, card failure or interrupted copy, using a healthy reference clip shot on the same camera with the same settings (tested with Sony FX3). Source files are opened read-only; results are always written to a new file. UI is in Vietnamese. Download from [Releases](../../releases/latest); see the CLI section for command-line use.
+**FileFind** is a free, open-source desktop app (macOS & Windows) that inspects MP4/MOV files and shows which parts are playable, which parts were blanked (0xFF/0x00) and whether the index (`moov`) is missing. It can also **rebuild the index of Sony XAVC recordings** that lost it after a power cut, card failure or interrupted copy, using a healthy reference clip shot on the same camera with the same settings (tested with Sony FX3). Source files are opened read-only; results are always written to a new file. UI is in Vietnamese. Download from [Releases](../../releases/latest); see the CLI section for command-line use.
 
 ## Giấy phép
 

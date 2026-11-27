@@ -49,7 +49,7 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
       - uses: actions/upload-artifact@v4
         with:
-          name: Video-Check-${{ runner.os }}
+          name: FileFind-${{ runner.os }}
           path: |
             dist/*.dmg
             dist/*.zip
@@ -86,7 +86,7 @@ jobs:
         with:
           tag_name: ${{ steps.v.outputs.tag }}
           target_commitish: ${{ github.sha }}
-          name: Video Check ${{ steps.v.outputs.tag }}
+          name: FileFind ${{ steps.v.outputs.tag }}
           files: dist/*
           generate_release_notes: true
           body: |
@@ -99,5 +99,5 @@ jobs:
             | Windows – chạy không cần cài | `…-portable.exe` |
 
             **Mở lần đầu:** app chưa ký số nên hệ điều hành sẽ cảnh báo.
-            - macOS: mở app, khi bị chặn vào *System Settings → Privacy & Security* → **Open Anyway** (hoặc chạy `xattr -cr "/Applications/Video Check.app"` trong Terminal).
+            - macOS: mở app, khi bị chặn vào *System Settings → Privacy & Security* → **Open Anyway** (hoặc chạy `xattr -cr "/Applications/FileFind.app"` trong Terminal).
             - Windows: SmartScreen → **More info** → **Run anyway**.

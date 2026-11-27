@@ -16,7 +16,7 @@ let seq = 0;
 function createWindow() {
   win = new BrowserWindow({
     width: 1180, height: 880, minWidth: 720, minHeight: 560,
-    title: "Video Check",
+    title: "FileFind",
     backgroundColor: nativeTheme.shouldUseDarkColors ? "#0e1116" : "#ffffff",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -135,7 +135,7 @@ async function fetchJson(url) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 10000);
   try {
-    const res = await net.fetch(url, { signal: ctrl.signal, headers: { Accept: "application/vnd.github+json", "User-Agent": `VideoCheck/${app.getVersion()}` } });
+    const res = await net.fetch(url, { signal: ctrl.signal, headers: { Accept: "application/vnd.github+json", "User-Agent": `FileFind/${app.getVersion()}` } });
     if (res.status === 404) throw new Error("Chưa có bản phát hành nào trên GitHub.");
     if (!res.ok) throw new Error(`GitHub trả lỗi ${res.status}.`);
     return await res.json();

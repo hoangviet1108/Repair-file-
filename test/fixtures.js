@@ -105,6 +105,6 @@ function brokenFile(nChunks, seed, destroy = []) {
   return { buf, chunks: s.chunks.filter((_, i) => !destroy.includes(i)) };
 }
 
-function tmpDir() { return fs.mkdtempSync(path.join(os.tmpdir(), "video-check-test-")); }
+function tmpDir() { return fs.mkdtempSync(path.join(os.tmpdir(), "filefind-test-")); }
 
 module.exports = { goodFile, brokenFile, tmpDir, FR, AU_LEN, DATA_START };
