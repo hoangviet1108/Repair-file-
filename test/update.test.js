@@ -3,7 +3,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const u = require("../src/core/update.js");
 
-const SLUG = "vietcong69/Repair-file-";
+const SLUG = "hoangviet1108/Repair-file-";
 const REL = {
   tag_name: "v1.2.0", name: "Video Check v1.2.0", html_url: `https://github.com/${SLUG}/releases/tag/v1.2.0`, body: "ghi chú",
   assets: ["mac-arm64.dmg", "mac-arm64.zip", "mac-x64.dmg", "win-x64.exe", "portable.exe"].map(s => ({

@@ -8,7 +8,7 @@ const update = require("./core/update.js");
 
 const PKG = require("../package.json");
 const SLUG = update.repoSlug(PKG);
-const REPO_URL = SLUG ? `https://github.com/${SLUG}` : "https://github.com/vietcong69/Repair-file-";
+const REPO_URL = SLUG ? `https://github.com/${SLUG}` : "https://github.com/hoangviet1108/Repair-file-";
 let win = null;
 const jobs = new Map();
 let seq = 0;
